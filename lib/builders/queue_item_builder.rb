@@ -10,6 +10,8 @@ module Netflix4Ruby
                     :box_art_small, :box_art_medium, :box_art_large,
                     :queue_availability
 
+      attr_accessor :raw
+
     end
 
   end
@@ -19,20 +21,22 @@ module Netflix4Ruby
     class QueueItemBuilder
 
       def self.from_node node
-        title = Netflix4Ruby::Objects::QueueItem.new
+        item = Netflix4Ruby::Objects::QueueItem.new
 
-        title.id_url = node.xpath('.//id')[0].content
-        title.title = node.xpath('.//title')[0][:regular]
-        title.box_art_small = node.xpath('.//box_art')[0][:small]
-        title.box_art_medium = node.xpath('.//box_art')[0][:medium]
-        title.box_art_large = node.xpath('.//box_art')[0][:large]
+        item.id_url = node.xpath('.//id')[0].content
+        item.title = node.xpath('.//title')[0][:regular]
+        item.box_art_small = node.xpath('.//box_art')[0][:small]
+        item.box_art_medium = node.xpath('.//box_art')[0][:medium]
+        item.box_art_large = node.xpath('.//box_art')[0][:large]
 
-        title.queue_availability = case queue_availability node
-                                     when 'available_now'; :available
-                                     when 'saved'; :saved
-                                   end
+        item.queue_availability = case queue_availability node
+                                    when 'available_now'; :available
+                                    when 'saved'; :saved
+                                  end
 
-        title
+        item.raw = node.to_s
+
+        item
       end
 
       def self.from_document document

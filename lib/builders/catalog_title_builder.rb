@@ -10,6 +10,8 @@ module Netflix4Ruby
                     :box_art_small, :box_art_medium, :box_art_large,
                     :rating
 
+      attr_accessor :raw
+
     end
 
   end
@@ -29,6 +31,8 @@ module Netflix4Ruby
         title.box_art_large = node.xpath('.//box_art')[0][:large]
 
         title.rating = rating node
+
+        title.raw = node.to_s
 
         title
       end
