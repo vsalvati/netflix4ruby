@@ -6,6 +6,9 @@ module Netflix4Ruby
 
     def initialize options = {}
       raise ArgumentError, 'Must supply dev_token' unless options.has_key? :dev_token
+      raise ArgumentError, 'Must supply dev_secret' unless options.has_key? :dev_secret
+      raise ArgumentError, 'Must supply user_token' unless options.has_key? :user_token
+      raise ArgumentError, 'Must supply user_secret' unless options.has_key? :user_secret
 
       @app_name = options[:app_name] || 'Unknown Application'
       @dev_token = options[:dev_token]
@@ -33,7 +36,7 @@ module Netflix4Ruby
     end
 
     def create_consumer
-      OAuth::Consumer.new dev_key,
+      OAuth::Consumer.new dev_token,
                           dev_secret,
                           :site => "http://api.netflix.com",
                           :request_token_url => "http://api.netflix.com/oauth/request_token",
