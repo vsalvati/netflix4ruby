@@ -20,6 +20,7 @@ module Netflix4Ruby
 
     def title_search term, options = {}
       response = access_token.get "/catalog/titles?term=#{term}"
+      Netflix4Ruby::Builders::CatalogTitleBuilder.from_text response.body
     end
 
     def instant_queue user_id, options = {}
