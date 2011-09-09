@@ -18,17 +18,24 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     ".document",
+    ".travis.yml",
     "Gemfile",
     "Gemfile.lock",
     "LICENSE.txt",
     "README.rdoc",
     "Rakefile",
     "lib/api.rb",
+    "lib/builders/catalog_title_builder.rb",
+    "lib/builders/queue_item_builder.rb",
     "lib/netflix4ruby.rb",
     "lib/version.rb",
     "netflix4ruby.gemspec",
+    "test/catalog_titles.xml",
     "test/helper.rb",
-    "test/test_api.rb"
+    "test/instant_queue.xml",
+    "test/test_api.rb",
+    "test/test_catalog_title_builder.rb",
+    "test/test_queue_item_builder.rb"
   ]
   s.homepage = %q{http://github.com/aramis/netflix4ruby}
   s.licenses = [%q{MIT}]
@@ -42,6 +49,7 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<oauth>, [">= 0.4.5"])
       s.add_runtime_dependency(%q<nokogiri>, [">= 1.5.0"])
+      s.add_runtime_dependency(%q<rdoc>, [">= 2.4.2"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
@@ -49,6 +57,7 @@ Gem::Specification.new do |s|
     else
       s.add_dependency(%q<oauth>, [">= 0.4.5"])
       s.add_dependency(%q<nokogiri>, [">= 1.5.0"])
+      s.add_dependency(%q<rdoc>, [">= 2.4.2"])
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
@@ -57,6 +66,7 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<oauth>, [">= 0.4.5"])
     s.add_dependency(%q<nokogiri>, [">= 1.5.0"])
+    s.add_dependency(%q<rdoc>, [">= 2.4.2"])
     s.add_dependency(%q<shoulda>, [">= 0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
