@@ -1,8 +1,10 @@
-= netflix4ruby
+# netflix4ruby
 
 Yet another Netflix Ruby gem.
 
-== Contributing to netflix4ruby
+[![Build Status](https://secure.travis-ci.org/aramis/netflix4ruby.png)](http://travis-ci.org/aramis/netflix4ruby)
+
+## Contributing to netflix4ruby
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
@@ -12,7 +14,7 @@ Yet another Netflix Ruby gem.
 * Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 
-== Copyright
+## Copyright
 
 Copyright (c) 2011 Aramis Group, LLC. See LICENSE.txt for further details.
 
