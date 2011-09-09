@@ -1,13 +1,12 @@
 module Netflix4Ruby
 
-  module Version
-
-    MAJOR = 0
-    MINOR = 1
-    PATCH = 0
-
-    STRING = [MAJOR, MINOR, PATCH].join '.'
-
+  def self.build_version
+    major = 0
+    minor = 1
+    patch = 0
+    [major, minor, patch].join '.'
   end
+
+  VERSION = build_version
 
 end

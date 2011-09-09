@@ -22,7 +22,7 @@ Jeweler::Tasks.new do |gem|
   gem.description = %Q{Access the Netflix API using Ruby}
   gem.email = "nveys@aramisgroup.com"
   gem.authors = ["Nick Veys"]
-  gem.version = Netflix4Ruby::Version::STRING
+  gem.version = Netflix4Ruby::VERSION
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
@@ -45,8 +45,8 @@ end
 task :default => :test
 
 require 'rdoc/task'
-Rake::RDocTask.new do |rdoc|
-  version = Netflix4Ruby::Version::STRING
+RDoc::Task.new do |rdoc|
+  version = Netflix4Ruby::VERSION
 
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "netflix4ruby #{version}"
