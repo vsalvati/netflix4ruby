@@ -30,6 +30,7 @@ module Netflix4Ruby
         item.box_art_large = node.xpath('.//box_art')[0][:large]
 
         item.queue_availability = case queue_availability node
+                                    when 'available now'; :available
                                     when 'available_now'; :available
                                     when 'saved'; :saved
                                   end
