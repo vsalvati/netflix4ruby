@@ -7,7 +7,8 @@ module Netflix4Ruby
     class QueueItem
 
       attr_accessor :title, :id_url,
-                    :box_art_small, :box_art_medium, :box_art_large
+                    :box_art_small, :box_art_medium, :box_art_large,
+                    :queue_availability
 
     end
 
@@ -26,6 +27,11 @@ module Netflix4Ruby
         title.box_art_medium = node.xpath('.//box_art')[0][:medium]
         title.box_art_large = node.xpath('.//box_art')[0][:large]
 
+        title.queue_availability = case queue_availability node
+                                     when 'available_now'; :available
+                                     when 'saved'; :saved
+                                   end
+
         title
       end
 
@@ -39,6 +45,16 @@ module Netflix4Ruby
 
       def self.from_file file
         from_document Nokogiri::XML(open(file))
+      end
+
+      private
+
+      def self.category node, scheme
+        node.xpath(".//category[@scheme=$scheme]", nil, :scheme => scheme)[0]
+      end
+
+      def self.queue_availability node
+        category(node, "http://api.netflix.com/categories/queue_availability")[:label]
       end
 
     end

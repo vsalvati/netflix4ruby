@@ -7,7 +7,8 @@ module Netflix4Ruby
     class CatalogTitle
 
       attr_accessor :title, :id, :id_url,
-                    :box_art_small, :box_art_medium, :box_art_large
+                    :box_art_small, :box_art_medium, :box_art_large,
+                    :rating
 
     end
 
@@ -27,6 +28,8 @@ module Netflix4Ruby
         title.box_art_medium = node.xpath('.//box_art')[0][:medium]
         title.box_art_large = node.xpath('.//box_art')[0][:large]
 
+        title.rating = rating node
+
         title
       end
 
@@ -40,6 +43,16 @@ module Netflix4Ruby
 
       def self.from_file file
         from_document Nokogiri::XML(open(file))
+      end
+
+      private
+
+      def self.category node, scheme
+        node.xpath(".//category[@scheme=$scheme]", nil, :scheme => scheme)[0]
+      end
+
+      def self.rating node
+        category(node, "http://api.netflix.com/categories/mpaa_ratings")[:label]
       end
 
     end
