@@ -1,4 +1,5 @@
 # encoding: utf-8
+require './lib/version.rb'
 
 require 'rubygems'
 require 'bundler'
@@ -15,12 +16,13 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "netflix4ruby"
-  gem.homepage = "http://github.com/nickveys/netflix4ruby"
+  gem.homepage = "http://github.com/aramis/netflix4ruby"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Netflix API for Ruby}
+  gem.description = %Q{Access the Netflix API using Ruby}
   gem.email = "nveys@aramisgroup.com"
   gem.authors = ["Nick Veys"]
+  gem.version = Netflix4Ruby::Version::STRING
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
@@ -42,9 +44,9 @@ end
 
 task :default => :test
 
-require 'rake/rdoctask'
+require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+  version = Netflix4Ruby::Version::STRING
 
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "netflix4ruby #{version}"
