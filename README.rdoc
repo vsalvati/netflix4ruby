@@ -1,6 +1,6 @@
 = netflix4ruby
 
-Description goes here.
+Yet another Netflix Ruby gem.
 
 == Contributing to netflix4ruby
  
@@ -14,6 +14,5 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2011 Nick Veys. See LICENSE.txt for
-further details.
+Copyright (c) 2011 Aramis Group, LLC. See LICENSE.txt for further details.
 
