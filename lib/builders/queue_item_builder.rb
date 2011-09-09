@@ -1,5 +1,3 @@
-require 'Nokogiri'
-
 module Netflix4Ruby
 
   module Objects
