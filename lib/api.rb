@@ -26,6 +26,7 @@ module Netflix4Ruby
     def instant_queue user_id, options = {}
       options = { :max_results => '100' }.merge options
       response = access_token.get "/users/#{user_id}/queues/instant?max_results=#{options[:max_results]}"
+      Netflix4Ruby::Builders::QueueItemBuilder.from_text response.body
     end
 
     private
