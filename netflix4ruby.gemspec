@@ -9,12 +9,12 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Nick Veys}]
-  s.date = %q{2011-09-09}
+  s.date = %q{2011-09-13}
   s.description = %q{Access the Netflix API using Ruby}
   s.email = %q{nveys@aramisgroup.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.rdoc"
+    "README.markdown"
   ]
   s.files = [
     ".document",
@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
     "Gemfile",
     "Gemfile.lock",
     "LICENSE.txt",
-    "README.rdoc",
+    "README.markdown",
     "Rakefile",
     "lib/api.rb",
     "lib/builders/catalog_title_builder.rb",
