@@ -6,9 +6,13 @@ module Netflix4Ruby
 
       attr_accessor :title, :id, :id_url,
                     :box_art_small, :box_art_medium, :box_art_large,
-                    :rating
+                    :mpaa_rating, :tv_rating
 
       attr_accessor :raw
+
+      def rating
+        mpaa_rating || tv_rating
+      end
 
     end
 
@@ -24,11 +28,14 @@ module Netflix4Ruby
         title.id_url = node.xpath('.//id')[0].content
         title.id = title.id_url.split('/')[-1]
         title.title = node.xpath('.//title')[0][:regular]
-        title.box_art_small = node.xpath('.//box_art')[0][:small]
-        title.box_art_medium = node.xpath('.//box_art')[0][:medium]
-        title.box_art_large = node.xpath('.//box_art')[0][:large]
 
-        title.rating = rating node
+        art = node.xpath('.//box_art')[0]
+        title.box_art_small = art[:small]
+        title.box_art_medium = art[:medium]
+        title.box_art_large = art[:large]
+
+        title.mpaa_rating = mpaa_rating node
+        title.tv_rating = tv_rating node
 
         title.raw = node.to_s
 
@@ -49,12 +56,18 @@ module Netflix4Ruby
 
       private
 
-      def self.category node, scheme
-        node.xpath(".//category[@scheme=$scheme]", nil, :scheme => scheme)[0]
+      def self.category node, scheme, attr
+        scheme = "http://api.netflix.com/categories/#{scheme}"
+        cat = node.xpath(".//category[@scheme=$scheme]", nil, :scheme => scheme)
+        cat[0][attr] unless cat.empty?
       end
 
-      def self.rating node
-        category(node, "http://api.netflix.com/categories/mpaa_ratings")[:label]
+      def self.mpaa_rating node
+        category node, "mpaa_ratings", :label
+      end
+
+      def self.tv_rating node
+        category node, "tv_ratings", :label
       end
 
     end
