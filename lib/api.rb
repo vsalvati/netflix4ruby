@@ -19,14 +19,14 @@ module Netflix4Ruby
     end
 
     def title_search term, options = {}
-      response = access_token.get "/catalog/titles?term=#{term}"
-      Netflix4Ruby::Builders::CatalogTitleBuilder.from_text response.body
+      body = get "/catalog/titles?term=#{term}"
+      Netflix4Ruby::Builders::CatalogTitleBuilder.from_text body
     end
 
     def instant_queue user_id, options = {}
       options = { :max_results => '100' }.merge options
-      response = access_token.get "/users/#{user_id}/queues/instant?max_results=#{options[:max_results]}"
-      Netflix4Ruby::Builders::QueueItemBuilder.from_text response.body
+      body = get "/users/#{user_id}/queues/instant?max_results=#{options[:max_results]}"
+      Netflix4Ruby::Builders::QueueItemBuilder.from_text body
     end
 
     private
@@ -44,6 +44,16 @@ module Netflix4Ruby
                           :request_token_url => "http://api.netflix.com/oauth/request_token",
                           :access_token_url => "http://api.netflix.com/oauth/access_token",
                           :authorize_url => "https://api-user.netflix.com/oauth/login"
+    end
+
+    def get uri
+      response = access_token.get uri
+      case response
+        when Net::HTTPSuccess
+          response.body
+        else
+          response.error!
+      end
     end
 
   end
