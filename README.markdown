@@ -1,4 +1,4 @@
-# netflix4ruby ![Build Status](https://secure.travis-ci.org/aramis/netflix4ruby.png)](http://travis-ci.org/aramis/netflix4ruby)
+# netflix4ruby [![Build Status](https://secure.travis-ci.org/aramis/netflix4ruby.png)](http://travis-ci.org/aramis/netflix4ruby)
 
 Yet another Netflix Ruby gem.
 
