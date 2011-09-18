@@ -13,7 +13,8 @@ class TestAPI < Test::Unit::TestCase
   context 'basic api construction' do
 
     should 'allow construction of an API access object' do
-      api = Netflix4Ruby::API.new(valid_options)
+      api = Netflix4Ruby::API.new(valid_options[:app_name], valid_options[:dev_token],
+                                  valid_options[:dev_secret], valid_options[:user_token], valid_options[:user_secret])
       assert_equal valid_options[:app_name], api.app_name
       assert_equal valid_options[:dev_token], api.dev_token
       assert_equal valid_options[:dev_secret], api.dev_secret

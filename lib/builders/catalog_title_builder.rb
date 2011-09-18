@@ -62,6 +62,12 @@ module Netflix4Ruby
         cat[0][attr] unless cat.empty?
       end
 
+      def self.link node, rel, attr
+        rel = "http://schemas.netflix.com/#{rel}"
+        link = node.xpath(".//link[@rel=$rel]", nil, :rel => rel)
+        link[0][attr] unless link.empty?
+      end
+
       def self.mpaa_rating node
         category node, "mpaa_ratings", :label
       end

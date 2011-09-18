@@ -4,29 +4,31 @@ module Netflix4Ruby
 
     attr_accessor :app_name, :dev_token, :dev_secret, :user_token, :user_secret
 
-    def initialize options = {}
-      raise ArgumentError, 'Must supply dev_token' unless options.has_key? :dev_token
-      raise ArgumentError, 'Must supply dev_secret' unless options.has_key? :dev_secret
-      raise ArgumentError, 'Must supply user_token' unless options.has_key? :user_token
-      raise ArgumentError, 'Must supply user_secret' unless options.has_key? :user_secret
-
-      @app_name = options[:app_name] || 'Unknown Application'
-      @dev_token = options[:dev_token]
-      @dev_secret = options[:dev_secret]
-      @user_token = options[:user_token]
-      @user_secret = options[:user_secret]
-
+    def initialize(application_name, developer_tokenz, developer_secretz, user_tokenz, user_secretz)
+      @app_name = application_name
+      @dev_token = developer_tokenz
+      @dev_secret = developer_secretz
+      @user_token = user_tokenz
+      @user_secret = user_secretz
     end
 
-    def title_search term, options = {}
-      body = get "/catalog/titles?term=#{term}"
-      Netflix4Ruby::Builders::CatalogTitleBuilder.from_text body
+    def add_catalog_title(user_id, title_ref)
+      body = post "/users/#{user_id}/queues/instant?title_ref=#{title_ref}"
+
+      Netflix4Ruby::Builders::QueueItemBuilder.from_text(body).first
     end
 
-    def instant_queue user_id, options = {}
+    def instant_queue(user_id, options = {})
       options = { :max_results => '100' }.merge options
       body = get "/users/#{user_id}/queues/instant?max_results=#{options[:max_results]}"
+
       Netflix4Ruby::Builders::QueueItemBuilder.from_text body
+    end
+
+    def title_search(term, options = {})
+      body = get "/catalog/titles?term=#{term}"
+
+      Netflix4Ruby::Builders::CatalogTitleBuilder.from_text body
     end
 
     private
@@ -46,8 +48,18 @@ module Netflix4Ruby
                           :authorize_url => "https://api-user.netflix.com/oauth/login"
     end
 
-    def get uri
+    def get(uri)
       response = access_token.get uri
+      case response
+        when Net::HTTPSuccess
+          response.body
+        else
+          response.error!
+      end
+    end
+
+    def post(uri)
+      response = access_token.post uri
       case response
         when Net::HTTPSuccess
           response.body
