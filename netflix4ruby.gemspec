@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Nick Veys}]
-  s.date = %q{2011-09-13}
+  s.date = %q{2011-09-21}
   s.description = %q{Access the Netflix API using Ruby}
   s.email = %q{nveys@aramisgroup.com}
   s.extra_rdoc_files = [
@@ -30,9 +30,10 @@ Gem::Specification.new do |s|
     "lib/netflix4ruby.rb",
     "lib/version.rb",
     "netflix4ruby.gemspec",
-    "test/catalog_titles.xml",
+    "test/data/catalog_titles.xml",
+    "test/data/credentials.yml",
+    "test/data/instant_queue.xml",
     "test/helper.rb",
-    "test/instant_queue.xml",
     "test/test_api.rb",
     "test/test_catalog_title_builder.rb",
     "test/test_queue_item_builder.rb"
