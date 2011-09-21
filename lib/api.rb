@@ -2,23 +2,30 @@ module Netflix4Ruby
 
   class API
 
-    attr_accessor :app_name, :dev_token, :dev_secret, :user_token, :user_secret
+    attr_accessor :app_name, :dev_token, :dev_secret, :user_token, :user_secret, :user_id
 
-    def initialize(application_name, developer_tokenz, developer_secretz, user_tokenz, user_secretz)
-      @app_name = application_name
-      @dev_token = developer_tokenz
-      @dev_secret = developer_secretz
-      @user_token = user_tokenz
-      @user_secret = user_secretz
+    def self.from_file(file_path)
+      config = YAML.load_file(file_path)
+      API.new(config["application_name"], config["developer_token"], config["developer_secret"],
+              config["user_token"], config["user_secret"], config["user_id"])
     end
 
-    def add_catalog_title(user_id, title_ref)
+    def initialize(application_name, developer_token, developer_secret, user_token, user_secret, user_id)
+      @app_name = application_name
+      @dev_token = developer_token
+      @dev_secret = developer_secret
+      @user_token = user_token
+      @user_secret = user_secret
+      @user_id = user_id
+    end
+
+    def add_catalog_title(title_ref)
       body = post "/users/#{user_id}/queues/instant?title_ref=#{title_ref}"
 
       Netflix4Ruby::Builders::QueueItemBuilder.from_text(body).first
     end
 
-    def instant_queue(user_id, options = {})
+    def instant_queue(options = {})
       options = { :max_results => '100' }.merge options
       body = get "/users/#{user_id}/queues/instant?max_results=#{options[:max_results]}"
 

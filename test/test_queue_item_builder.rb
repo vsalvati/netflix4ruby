@@ -3,7 +3,7 @@ require 'helper'
 class TestQueueItemBuilder < Test::Unit::TestCase
 
   def setup
-    file = File.dirname(__FILE__) + '/instant_queue.xml'
+    file = File.dirname(__FILE__) + '/data/instant_queue.xml'
     @queue_items = Netflix4Ruby::Builders::QueueItemBuilder.from_file file
   end
 

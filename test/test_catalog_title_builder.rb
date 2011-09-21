@@ -3,7 +3,7 @@ require 'helper'
 class TestCatalogTitleBuilder < Test::Unit::TestCase
 
   def setup
-    file = File.dirname(__FILE__) + '/catalog_titles.xml'
+    file = File.dirname(__FILE__) + '/data/catalog_titles.xml'
     @catalog_titles = Netflix4Ruby::Builders::CatalogTitleBuilder.from_file file
   end
 
