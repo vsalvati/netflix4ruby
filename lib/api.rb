@@ -39,8 +39,10 @@ module Netflix4Ruby
       Netflix4Ruby::Builders::QueueItemBuilder.from_text body
     end
 
-    def title_search(term, options = {})
-      body = get "/catalog/titles?term=#{term}"
+    def title_search(term, start_index = 0, max_results = 25)
+      body = get "/catalog/titles", { 'term' => term.to_s,
+                                      'start_index' => start_index.to_s,
+                                      'max_results' => max_results.to_s }
 
       Netflix4Ruby::Builders::CatalogTitleBuilder.from_text body
     end
@@ -72,8 +74,8 @@ module Netflix4Ruby
       end
     end
 
-    def get(uri)
-      response = access_token.get uri
+    def get(uri, params = {})
+      response = access_token.request :get, uri, params
       case response
         when Net::HTTPSuccess
           response.body
