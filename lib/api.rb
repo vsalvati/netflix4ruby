@@ -25,6 +25,13 @@ module Netflix4Ruby
       Netflix4Ruby::Builders::QueueItemBuilder.from_text(body).first
     end
 
+    def delete_item(id, type)
+      body = delete "/users/#{user_id}/queues/instant/#{type}/#{id}"
+
+      puts body
+      Netflix4Ruby::Builders::QueueItemBuilder.from_text(body).first
+    end
+
     def instant_queue(options = {})
       options = { :max_results => '100' }.merge options
       body = get "/users/#{user_id}/queues/instant?max_results=#{options[:max_results]}"
@@ -53,6 +60,16 @@ module Netflix4Ruby
                           :request_token_url => "http://api.netflix.com/oauth/request_token",
                           :access_token_url => "http://api.netflix.com/oauth/access_token",
                           :authorize_url => "https://api-user.netflix.com/oauth/login"
+    end
+
+    def delete(uri)
+      response = access_token.delete uri
+      case response
+        when Net::HTTPSuccess
+          response.body
+        else
+          response.error!
+      end
     end
 
     def get(uri)
