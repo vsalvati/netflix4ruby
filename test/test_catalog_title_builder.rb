@@ -44,4 +44,39 @@ class TestCatalogTitleBuilder < Test::Unit::TestCase
     assert_equal 'TV-PG', @catalog_titles[22].rating
   end
 
+  should 'create titles with genre arrays' do
+    assert_equal ["Children & Family Movies", "Sci-Fi & Fantasy", "Movies for ages 2 to 4",
+                  "Movies for ages 5 to 7", "Movies for ages 8 to 10", "Family Features",
+                  "Japanese Movies", "Fantasy", "Family Feature Animation"], @catalog_titles[0].genres
+    assert_equal ["Comedies", "Romantic Movies", "Romantic Comedies"], @catalog_titles[14].genres
+  end
+
+  should 'create titles with average ratings' do
+    assert_equal '3.3', @catalog_titles[2].average_rating
+    assert_equal '3.6', @catalog_titles[6].average_rating
+    assert_equal '3.2', @catalog_titles[14].average_rating
+    assert_equal '3.2', @catalog_titles[21].average_rating
+  end
+
+  should 'create titles with release years' do
+    assert_equal '2008', @catalog_titles[1].release_year
+    assert_equal '2011', @catalog_titles[6].release_year
+    assert_equal '2006', @catalog_titles[14].release_year
+    assert_equal '1997', @catalog_titles[17].release_year
+    assert_equal '2009', @catalog_titles[21].release_year
+  end
+
+  should 'create titles with runtimes' do
+    assert_equal '8520', @catalog_titles[4].runtime
+    assert_equal '7320', @catalog_titles[7].runtime
+    assert_equal '7200', @catalog_titles[15].runtime
+    assert_equal '10560', @catalog_titles[19].runtime
+    assert_equal '6060', @catalog_titles[24].runtime
+  end
+
+  should 'create titles with format availability hrefs' do
+    assert_equal 'http://api.netflix.com/catalog/titles/movies/70065114/format_availability', @catalog_titles[7].formats_href
+    assert_equal 'http://api.netflix.com/catalog/titles/movies/60020329/format_availability', @catalog_titles[15].formats_href
+  end
+
 end

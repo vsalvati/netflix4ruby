@@ -2,11 +2,17 @@ module Netflix4Ruby
 
   module Objects
 
+    class CatalogTitles
+
+      attr_accessor :number_of_results, :start_index, :results_per_page, :titles
+
+    end
+
     class CatalogTitle
 
-      attr_accessor :title, :id, :id_url,
-                    :box_art_small, :box_art_medium, :box_art_large,
-                    :mpaa_rating, :tv_rating
+      attr_accessor :title, :id, :id_url, :box_art_small, :box_art_medium, :box_art_large,
+                    :mpaa_rating, :tv_rating, :average_rating, :runtime, :release_year, :genres,
+                    :formats_href
 
       attr_accessor :raw
 
@@ -25,17 +31,25 @@ module Netflix4Ruby
       def self.from_node node
         title = Netflix4Ruby::Objects::CatalogTitle.new
 
-        title.id_url = node.xpath('.//id')[0].content
-        title.id = title.id_url.split('/')[-1]
-        title.title = node.xpath('.//title')[0][:regular]
+        title.id_url = node.xpath('.//id').first.content
+        title.id = title.id_url.split('/').last
+        title.title = node.xpath('.//title').first[:regular]
 
-        art = node.xpath('.//box_art')[0]
+        art = node.xpath('.//box_art').first
         title.box_art_small = art[:small]
         title.box_art_medium = art[:medium]
         title.box_art_large = art[:large]
 
         title.mpaa_rating = mpaa_rating node
         title.tv_rating = tv_rating node
+
+        title.average_rating = node.xpath('.//average_rating').first.content
+        title.release_year = node.xpath('.//release_year').first.content
+        title.runtime = node.xpath('.//runtime').first.content rescue ''
+
+        title.genres = categories node, 'genres', 'label'
+
+        title.formats_href = link node, 'catalog/titles/format_availability', 'href'
 
         title.raw = node.to_s
 
@@ -56,24 +70,26 @@ module Netflix4Ruby
 
       private
 
-      def self.category node, scheme, attr
+      def self.categories node, scheme, attr
         scheme = "http://api.netflix.com/categories/#{scheme}"
         cat = node.xpath(".//category[@scheme=$scheme]", nil, :scheme => scheme)
-        cat[0][attr] unless cat.empty?
+        cat.collect { |c| c[attr] }
+      end
+
+      def self.mpaa_rating node
+        cats = categories node, "mpaa_ratings", :label
+        cats.first unless cats.empty?
+      end
+
+      def self.tv_rating node
+        cats = categories node, "tv_ratings", :label
+        cats.first unless cats.empty?
       end
 
       def self.link node, rel, attr
         rel = "http://schemas.netflix.com/#{rel}"
         link = node.xpath(".//link[@rel=$rel]", nil, :rel => rel)
-        link[0][attr] unless link.empty?
-      end
-
-      def self.mpaa_rating node
-        category node, "mpaa_ratings", :label
-      end
-
-      def self.tv_rating node
-        category node, "tv_ratings", :label
+        link.first[attr] unless link.empty?
       end
 
     end

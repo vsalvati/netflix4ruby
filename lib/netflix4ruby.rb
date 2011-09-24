@@ -1,4 +1,6 @@
+require 'cgi'
 require 'nokogiri'
+require 'oauth'
 require 'yaml'
 
 require 'api'
