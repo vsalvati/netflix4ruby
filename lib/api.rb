@@ -29,27 +29,18 @@ module Netflix4Ruby
       Netflix4Ruby::Builders::QueueItemBuilder.from_text(body).first
     end
 
+    # sort options: :queue_sequence, :date_added, :alphabetical
     def instant_queue(options = {})
-      sort = case options[:sort]
-             when :queue_sequence; options[:sort]
-             when :date_added; options[:sort]
-             when :alphabetical; options[:sort]
-             else :queue_sequence
-             end
-      sort = CGI.escape(sort.to_s)
-      start_index = CGI.escape((options[:start_index] || 0).to_s)
-      max_results = CGI.escape((options[:max_results] || 25).to_s)
-
-      body = get "/users/#{user_id}/queues/instant?sort=#{sort}&max_results=#{max_results}&start_index=#{start_index}"
+      allowed_options = [ :sort, :start_index, :max_results ]
+      params = options.select { |k, v| allowed_options.include?(k) }
+      body = get "/users/#{user_id}/queues/instant", params
       Netflix4Ruby::Builders::QueueItemBuilder.from_text body
     end
 
     def title_search(term, options = {})
-      term = CGI.escape(term.to_s)
-      start_index = CGI.escape((options[:start_index] || 0).to_s)
-      max_results = CGI.escape((options[:max_results] || 25).to_s)
-
-      body = get "/catalog/titles?term=#{term}&max_results=#{max_results}&start_index=#{start_index}"
+      allowed_options = [ :start_index, :max_results ]
+      params = { 'term' => term }.merge!(options.select { |k, v| allowed_options.include?(k) })
+      body = get "/catalog/titles", params
       Netflix4Ruby::Builders::CatalogTitleBuilder.from_text body
     end
 
@@ -80,14 +71,20 @@ module Netflix4Ruby
       end
     end
 
-    def get(uri)
-      response = access_token.request :get, uri
+    def get(uri, params = {})
+
+      param_array = []
+      params.each { |k, v| param_array << "#{k}=#{CGI.escape(v.to_s)}" }
+      param_string = param_array.empty? ? '' : "?#{param_array.join('&')}"
+
+      response = access_token.request :get, "#{uri}#{param_string}"
       case response
         when Net::HTTPSuccess
           response.body
         else
           response.error!
       end
+
     end
 
     def post(uri, params = {})
