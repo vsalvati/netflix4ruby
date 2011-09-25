@@ -29,6 +29,12 @@ module Netflix4Ruby
       Netflix4Ruby::Builders::QueueItemBuilder.from_text(body).first
     end
 
+    def formats_for(catalog_title)
+      # TODO verify title has formats_href first?
+      body = get catalog_title.formats_href
+      Netflix4Ruby::Builders::DeliveryFormatsBuilder.from_text(body)
+    end
+
     # sort options: :queue_sequence, :date_added, :alphabetical
     def instant_queue(options = {})
       allowed_options = [ :sort, :start_index, :max_results ]
