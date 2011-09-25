@@ -25,7 +25,7 @@ module Netflix4Ruby
 
   module Builders
 
-    class QueueBuilder
+    class QueueItemBuilder
 
       def self.from_node node
         item = Netflix4Ruby::Objects::QueueItem.new
@@ -51,16 +51,44 @@ module Netflix4Ruby
       end
 
       def self.from_document document
-        root = document.xpath('//queue')
+        document.xpath('//queue_item').collect { |node| from_node node }
+      end
 
+      def self.from_text text
+        from_document Nokogiri::XML(text)
+      end
+
+      def self.from_file file
+        from_document Nokogiri::XML(open(file))
+      end
+
+      private
+
+      def self.category node, scheme
+        node.xpath(".//category[@scheme=$scheme]", nil, :scheme => scheme)[0]
+      end
+
+      def self.queue_availability node
+        category(node, "http://api.netflix.com/categories/queue_availability")[:label]
+      end
+
+    end
+
+    class QueueBuilder
+
+      def self.from_node node
         queue = Netflix4Ruby::Objects::Queue.new
-        queue.number_of_results = root.xpath('.//number_of_results').first.content.to_i
-        queue.start_index = root.xpath('.//start_index').first.content.to_i
-        queue.results_per_page = root.xpath('.//results_per_page').first.content.to_i
+        queue.number_of_results = node.xpath('.//number_of_results').first.content.to_i
+        queue.start_index = node.xpath('.//start_index').first.content.to_i
+        queue.results_per_page = node.xpath('.//results_per_page').first.content.to_i
 
-        queue.items = document.xpath('//queue_item').collect { |node| from_node node }
+        queue.items = node.xpath('//queue_item').collect { |node| QueueItemBuilder.from_node node }
 
         queue
+      end
+
+      def self.from_document document
+        from_node document.xpath('//queue')
       end
 
       def self.from_text text

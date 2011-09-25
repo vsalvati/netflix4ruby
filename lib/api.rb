@@ -21,12 +21,12 @@ module Netflix4Ruby
 
     def add_title(title_ref)
       body = post "/users/#{user_id}/queues/instant", { 'title_ref' => title_ref.to_s }
-      Netflix4Ruby::Builders::QueueBuilder.from_text(body).first
+      Netflix4Ruby::Builders::QueueItemBuilder.from_text(body).first
     end
 
     def remove_title(id, type)
       body = delete "/users/#{user_id}/queues/instant/#{type}/#{id}"
-      Netflix4Ruby::Builders::QueueBuilder.from_text(body).first
+      Netflix4Ruby::Builders::QueueItemBuilder.from_text(body).first
     end
 
     def formats_for(catalog_title)
