@@ -26,7 +26,7 @@ module Netflix4Ruby
 
   module Builders
 
-    class CatalogTitleBuilder
+    class CatalogTitlesBuilder
 
       def self.from_node node
         title = Netflix4Ruby::Objects::CatalogTitle.new
@@ -43,9 +43,9 @@ module Netflix4Ruby
         title.mpaa_rating = mpaa_rating node
         title.tv_rating = tv_rating node
 
-        title.average_rating = node.xpath('.//average_rating').first.content
+        title.average_rating = node.xpath('.//average_rating').first.content.to_f
         title.release_year = node.xpath('.//release_year').first.content
-        title.runtime = node.xpath('.//runtime').first.content rescue ''
+        title.runtime = node.xpath('.//runtime').first.content.to_i rescue ''
 
         title.genres = categories node, 'genres', 'label'
 
@@ -57,7 +57,16 @@ module Netflix4Ruby
       end
 
       def self.from_document document
-        document.xpath('//catalog_title').collect { |node| from_node node }
+        root = document.xpath('//catalog_titles')
+
+        titles = Netflix4Ruby::Objects::CatalogTitles.new
+        titles.number_of_results = root.xpath('.//number_of_results').first.content.to_i
+        titles.start_index = root.xpath('.//start_index').first.content.to_i
+        titles.results_per_page = root.xpath('.//results_per_page').first.content.to_i
+
+        titles.titles = document.xpath('//catalog_title').collect { |node| from_node node }
+
+        titles
       end
 
       def self.from_text text
