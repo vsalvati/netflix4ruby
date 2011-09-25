@@ -47,7 +47,7 @@ module Netflix4Ruby
       allowed_options = [ :start_index, :max_results ]
       params = { 'term' => term }.merge!(options.select { |k, v| allowed_options.include?(k) })
       body = get "/catalog/titles", params
-      Netflix4Ruby::Builders::CatalogTitleBuilder.from_text body
+      Netflix4Ruby::Builders::CatalogTitlesBuilder.from_text body
     end
 
     private
