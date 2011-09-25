@@ -27,4 +27,10 @@ class TestDeliveryFormatsBuilder < Test::Unit::TestCase
     puts @formats2[2].available_until
   end
 
+  should 'create formats with labels' do
+    assert_equal 'instant', @formats1.first.label
+    assert_equal 'DVD', @formats1.last.label
+    assert_equal 'Blu-ray', @formats2[1].label
+  end
+
 end
