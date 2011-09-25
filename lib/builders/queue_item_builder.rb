@@ -4,11 +4,14 @@ module Netflix4Ruby
 
     class QueueItem
 
-      attr_accessor :title, :id, :id_url,
-                    :box_art_small, :box_art_medium, :box_art_large,
+      attr_accessor :title, :id, :id_url, :box_art,
                     :queue_availability
 
       attr_accessor :raw
+
+      def initialize
+        @box_art = {}
+      end
 
     end
 
@@ -21,12 +24,14 @@ module Netflix4Ruby
       def self.from_node node
         item = Netflix4Ruby::Objects::QueueItem.new
 
-        item.id_url = node.xpath('.//id')[0].content
-        item.id = item.id_url.split('/')[-1]
-        item.title = node.xpath('.//title')[0][:regular]
-        item.box_art_small = node.xpath('.//box_art')[0][:small]
-        item.box_art_medium = node.xpath('.//box_art')[0][:medium]
-        item.box_art_large = node.xpath('.//box_art')[0][:large]
+        item.id_url = node.xpath('.//id').first.content
+        item.id = item.id_url.split('/').last
+        item.title = node.xpath('.//title').first[:regular]
+
+        art = node.xpath('.//box_art').first
+        item.box_art[:small] = art[:small]
+        item.box_art[:medium] = art[:medium]
+        item.box_art[:large] = art[:large]
 
         item.queue_availability = case queue_availability node
                                   when 'available now'; :available

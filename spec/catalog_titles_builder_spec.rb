@@ -33,9 +33,9 @@ describe Netflix4Ruby::Builders::CatalogTitlesBuilder do
 
   it 'should create a catalog title with box art urls' do
     title = @titles.first
-    title.box_art_small.should == 'http://cdn-4.nflximg.com/en_us/boxshots/tiny/60032294.jpg'
-    title.box_art_medium.should == 'http://cdn-4.nflximg.com/en_us/boxshots/small/60032294.jpg'
-    title.box_art_large.should == 'http://cdn-4.nflximg.com/en_us/boxshots/large/60032294.jpg'
+    title.box_art[:small].should == 'http://cdn-4.nflximg.com/en_us/boxshots/tiny/60032294.jpg'
+    title.box_art[:medium].should == 'http://cdn-4.nflximg.com/en_us/boxshots/small/60032294.jpg'
+    title.box_art[:large].should == 'http://cdn-4.nflximg.com/en_us/boxshots/large/60032294.jpg'
   end
 
   it 'should create catalog titles with an MPAA rating' do
@@ -59,9 +59,9 @@ describe Netflix4Ruby::Builders::CatalogTitlesBuilder do
 
   it 'should create titles with genre arrays' do
     @titles[0].genres.should include("Children & Family Movies", "Sci-Fi & Fantasy",
-                                             "Movies for ages 2 to 4",  "Movies for ages 5 to 7",
-                                             "Movies for ages 8 to 10", "Family Features",
-                                             "Japanese Movies", "Fantasy", "Family Feature Animation")
+                                     "Movies for ages 2 to 4",  "Movies for ages 5 to 7",
+                                     "Movies for ages 8 to 10", "Family Features",
+                                     "Japanese Movies", "Fantasy", "Family Feature Animation")
     @titles[14].genres.should include("Comedies", "Romantic Movies", "Romantic Comedies")
   end
 

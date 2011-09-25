@@ -19,9 +19,9 @@ describe Netflix4Ruby::Builders::QueueItemBuilder do
 
   it 'should create a queue item with box art urls' do
     item = @queue_items.first
-    item.box_art_small.should == 'http://alien2.netflix.com/us/boxshots/tiny/251454.jpg'
-    item.box_art_medium.should == 'http://alien2.netflix.com/us/boxshots/small/251454.jpg'
-    item.box_art_large.should == 'http://alien2.netflix.com/us/boxshots/large/251454.jpg'
+    item.box_art[:small].should == 'http://alien2.netflix.com/us/boxshots/tiny/251454.jpg'
+    item.box_art[:medium].should == 'http://alien2.netflix.com/us/boxshots/small/251454.jpg'
+    item.box_art[:large].should == 'http://alien2.netflix.com/us/boxshots/large/251454.jpg'
   end
 
   it 'should create items with queue availability' do

@@ -10,11 +10,16 @@ module Netflix4Ruby
 
     class CatalogTitle
 
-      attr_accessor :title, :id, :id_url, :box_art_small, :box_art_medium, :box_art_large,
-                    :mpaa_rating, :tv_rating, :average_rating, :runtime, :release_year, :genres,
+      attr_accessor :title, :id, :id_url, :box_art, :mpaa_rating, :tv_rating, :average_rating,
+                    :runtime, :release_year, :genres,
                     :formats_href
 
       attr_accessor :raw
+
+      def initialize
+        @box_art = {}
+        @genres = []
+      end
 
       def rating
         mpaa_rating || tv_rating
@@ -36,9 +41,9 @@ module Netflix4Ruby
         title.title = node.xpath('.//title').first[:regular]
 
         art = node.xpath('.//box_art').first
-        title.box_art_small = art[:small]
-        title.box_art_medium = art[:medium]
-        title.box_art_large = art[:large]
+        title.box_art[:small] = art[:small]
+        title.box_art[:medium] = art[:medium]
+        title.box_art[:large] = art[:large]
 
         title.mpaa_rating = mpaa_rating node
         title.tv_rating = tv_rating node
