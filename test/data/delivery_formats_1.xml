@@ -1,0 +1,10 @@
+<?xml version="1.0" standalone="yes"?>
+
+<delivery_formats>
+  <availability available_from="1306911600" available_until="1370070000">
+    <category scheme="http://api.netflix.com/categories/title_formats" label="instant" term="instant"></category>
+  </availability>
+  <availability available_from="1272956400">
+    <category scheme="http://api.netflix.com/categories/title_formats" label="DVD" term="DVD"></category>
+  </availability>
+</delivery_formats>

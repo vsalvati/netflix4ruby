@@ -1,0 +1,13 @@
+<?xml version="1.0" standalone="yes"?>
+
+<delivery_formats>
+  <availability available_from="1308985200" available_until="1356422400">
+    <category scheme="http://api.netflix.com/categories/title_formats" label="instant" term="instant"></category>
+  </availability>
+  <availability available_from="1285657200">
+    <category scheme="http://api.netflix.com/categories/title_formats" label="Blu-ray" term="Blu-ray"></category>
+  </availability>
+  <availability available_from="1285657200">
+    <category scheme="http://api.netflix.com/categories/title_formats" label="DVD" term="DVD"></category>
+  </availability>
+</delivery_formats>

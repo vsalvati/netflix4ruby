@@ -5,4 +5,5 @@ require 'yaml'
 
 require 'api'
 require 'builders/catalog_title_builder'
+require 'builders/delivery_formats_builder'
 require 'builders/queue_item_builder'
