@@ -2,6 +2,12 @@ module Netflix4Ruby
 
   module Objects
 
+    class Queue
+
+      attr_accessor :number_of_results, :start_index, :results_per_page, :items
+
+    end
+
     class QueueItem
 
       attr_accessor :title, :id, :id_url, :box_art,
@@ -19,7 +25,7 @@ module Netflix4Ruby
 
   module Builders
 
-    class QueueItemBuilder
+    class QueueBuilder
 
       def self.from_node node
         item = Netflix4Ruby::Objects::QueueItem.new
@@ -45,7 +51,16 @@ module Netflix4Ruby
       end
 
       def self.from_document document
-        document.xpath('//queue_item').collect { |node| from_node node }
+        root = document.xpath('//queue')
+
+        queue = Netflix4Ruby::Objects::Queue.new
+        queue.number_of_results = root.xpath('.//number_of_results').first.content.to_i
+        queue.start_index = root.xpath('.//start_index').first.content.to_i
+        queue.results_per_page = root.xpath('.//results_per_page').first.content.to_i
+
+        queue.items = document.xpath('//queue_item').collect { |node| from_node node }
+
+        queue
       end
 
       def self.from_text text

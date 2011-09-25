@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
     "lib/api.rb",
     "lib/builders/catalog_titles_builder.rb",
     "lib/builders/delivery_formats_builder.rb",
-    "lib/builders/queue_item_builder.rb",
+    "lib/builders/queue_builder.rb",
     "lib/netflix4ruby.rb",
     "lib/version.rb",
     "netflix4ruby.gemspec",
@@ -39,7 +39,7 @@ Gem::Specification.new do |s|
     "spec/data/delivery_formats_2.xml",
     "spec/data/instant_queue.xml",
     "spec/delivery_formats_builder_spec.rb",
-    "spec/queue_item_builder_spec.rb",
+    "spec/queue_builder_spec.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/aramis/netflix4ruby}

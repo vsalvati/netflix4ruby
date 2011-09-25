@@ -21,12 +21,12 @@ module Netflix4Ruby
 
     def add_title(title_ref)
       body = post "/users/#{user_id}/queues/instant", { 'title_ref' => title_ref.to_s }
-      Netflix4Ruby::Builders::QueueItemBuilder.from_text(body).first
+      Netflix4Ruby::Builders::QueueBuilder.from_text(body).first
     end
 
     def remove_title(id, type)
       body = delete "/users/#{user_id}/queues/instant/#{type}/#{id}"
-      Netflix4Ruby::Builders::QueueItemBuilder.from_text(body).first
+      Netflix4Ruby::Builders::QueueBuilder.from_text(body).first
     end
 
     def formats_for(catalog_title)
@@ -40,7 +40,7 @@ module Netflix4Ruby
       allowed_options = [ :sort, :start_index, :max_results ]
       params = options.select { |k, v| allowed_options.include?(k) }
       body = get "/users/#{user_id}/queues/instant", params
-      Netflix4Ruby::Builders::QueueItemBuilder.from_text body
+      Netflix4Ruby::Builders::QueueBuilder.from_text body
     end
 
     def title_search(term, options = {})
